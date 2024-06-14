@@ -1,4 +1,5 @@
 import 'package:dynamic_form_web_app/main.dart';
+import 'package:dynamic_form_web_app/model/color.dart';
 import 'package:dynamic_form_web_app/view/components/custom_button.dart';
 import 'package:dynamic_form_web_app/view/components/from_component.dart';
 import 'package:flutter/material.dart';
@@ -57,29 +58,47 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Form Data'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: formComponents.map((component) {
-              return Column(
+          contentPadding: const EdgeInsets.fromLTRB(
+              24.0, 20.0, 24.0, 0.0), // Adjust content padding
+          title: const Text(
+            'Form Data',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+            ),
+          ),
+          content: SingleChildScrollView(
+            // Wrap content with SingleChildScrollView
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4, // Set width here
+
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Component: ${formComponents.indexOf(component) + 1}'),
-                  Text('Label: ${component['label']}'),
-                  Text('Info-Text: ${component['infoText']}'),
-                  const Text('Settings:'),
-                  Text(
-                      'Required: ${component['settings']['required']}, Readonly: ${component['settings']['readonly']}, Hidden Field: ${component['settings']['hiddenField']}'),
-                  const SizedBox(height: 10),
-                ],
-              );
-            }).toList(),
+                children: formComponents.map((component) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          'Component: ${formComponents.indexOf(component) + 1}'),
+                      Text('Label: ${component['label']}'),
+                      Text('Info-Text: ${component['infoText']}'),
+                      const Text('Settings:'),
+                      Text(
+                          'Required: ${component['settings']['required']}, Readonly: ${component['settings']['readonly']}, Hidden Field: ${component['settings']['hiddenField']}'),
+                      const SizedBox(height: 10),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ),
           ),
           actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Close'),
-            ),
+            customButton(
+                ontap: () => Navigator.pop(context),
+                text: 'Close',
+                color: blue,
+                textColor: Colors.white,
+                borderColor: Colors.transparent),
           ],
         );
       },
